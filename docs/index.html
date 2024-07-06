@@ -1,1 +1,153 @@
-Demo
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Image Labeling Quiz</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 20px auto;
+        }
+
+        #image {
+            position: relative;
+            width: 600px;
+            height: 350px;
+            background: url('image.png') no-repeat center center;
+            background-size: cover;
+            border: 1px solid #ccc;
+        }
+
+        .draggable {
+            width: 150px;
+            height: 50px;
+            padding: 0.5em;
+            margin: 10px;
+            cursor: move;
+        }
+
+        .droppable {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            border: 2px dashed #ccc;
+        }
+
+        #droppable1 {
+            top: 45.13px;
+            left: 278.96px;
+            width: 82.14px;
+            height: 45.63px;
+        }
+
+        #droppable2 {
+            top: 144.91px;
+            left: 11.52px;
+            width: 59.10px;
+            height: 43.62px;
+        }
+
+        #droppable3 {
+            top: 139.90px;
+            left: 520.87px;
+            width: 57.60px;
+            height: 25.07px;
+        }
+
+        #droppable4 {
+            top: 197.06px;
+            left: 388.15px;
+            width: 89.65px;
+            height: 40.11px;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+$(function () {
+    $(".draggable").draggable();
+    $(".droppable").droppable({
+        drop: function (event, ui) {
+            var draggableId = ui.draggable.data("id");
+            var droppableId = $(this).data("id");
+            if (draggableId === droppableId) {
+                $(ui.draggable)
+                    .addClass("border border-green-500 border-2")
+
+            } else {
+                $(ui.draggable)
+                    .addClass("border border-red-500 border-2")
+            }
+        }
+    });
+
+    $("#show-answers").click(function () {
+        $(".draggable").each(function () {
+            var id = $(this).data("id");
+            var droppable = $(".droppable[data-id='" + id + "']");
+            var position = droppable.position();
+            var containerOffset = $("#image").offset();
+            var newTop = position.top + containerOffset.top;
+            var newLeft = position.left + containerOffset.left;
+            debugger
+            $(this).animate({
+                top: newTop,
+                left: newLeft
+            }, 1000);
+        });
+    });
+});
+
+    </script>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100vh;">
+
+    <h1 style="color: #4A90E2;" class="text-5xl mb-4">StudyFlash Drag & Drop Quiz Demo</h1>
+    <p style="font-size: 16px;" class="mb-4">Try dragging and dropping the labels to their correct positions. Enjoy! :)</p>
+    <div id="container">
+        <div id="image">
+            <div id="droppable1" class="droppable" data-id="summing-junction">
+                <p></p>
+            </div>
+            <div id="droppable2" class="droppable" data-id="input-signals">
+                <p></p>
+            </div>
+            <div id="droppable3" class="droppable" data-id="output">
+                <p></p>
+            </div>
+            <div id="droppable4" class="droppable" data-id="activation-function">
+                <p></p>
+            </div>
+            
+            
+        </div>
+        <div id="labels">
+            <div class="draggable ui-widget-content bg-gray-200 border" data-id="summing-junction">
+                <p>Summing junction</p>
+            </div>
+            <div class="draggable ui-widget-content bg-gray-200 border" data-id="input-signals">
+                <p>Input signals</p>
+            </div>
+            <div class="draggable ui-widget-content bg-gray-200 border" data-id="output">
+                <p>Output</p>
+            </div>
+            <div class="draggable ui-widget-content bg-gray-200 border" data-id="activation-function">
+                <p>Activation function</p>
+            </div>
+            <!-- <button id="show-answers" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Show Answers</button> -->
+
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
